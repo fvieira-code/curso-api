@@ -3,6 +3,7 @@ package br.com.dicasdeumdev.apitest.services.impl;
 import br.com.dicasdeumdev.apitest.domain.User;
 import br.com.dicasdeumdev.apitest.domain.dto.UserDTO;
 import br.com.dicasdeumdev.apitest.repositories.UserRepository;
+import br.com.dicasdeumdev.apitest.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,18 @@ class UserServiceImplTest {
         startUser();
     }
 
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException() {
+       when(repository.findById(anyInt()))
+               .thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+
+       try {
+           service.finById(ID);
+       } catch (Exception ex){
+           assertEquals(ObjectNotFoundException.class, ex.getClass());
+           assertEquals("Objeto não encontrado", ex.getMessage());
+       }
+    }
     @Test
     void whenfinByIdThenReturnAnUserInstance() {
 
