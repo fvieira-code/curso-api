@@ -3,6 +3,7 @@ package br.com.dicasdeumdev.apitest.resources;
 import br.com.dicasdeumdev.apitest.domain.User;
 import br.com.dicasdeumdev.apitest.domain.dto.UserDTO;
 import br.com.dicasdeumdev.apitest.services.UserService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,14 @@ public class UserResource {
                 .buildAndExpand(service.create(obj))
                 .toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Integer id,
+                                              @RequestBody UserDTO obj) {
+        obj.setId(id);
+        return ResponseEntity.ok().body(
+                mapper.map(service.update(obj), UserDTO.class)
+        );
     }
 }
