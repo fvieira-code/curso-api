@@ -1,5 +1,6 @@
 package br.com.dicasdeumdev.apitest.resources.exceptions;
 
+import br.com.dicasdeumdev.apitest.services.exceptions.DataIntegratyViolationException;
 import br.com.dicasdeumdev.apitest.services.exceptions.ObjectNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.zip.DataFormatException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -18,6 +20,15 @@ public class ResourceExceptionHandler {
                 ex.getMessage(), request.getRequestURI());
 
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(DataIntegratyViolationException.class)
+    public ResponseEntity<StandardError> dataIntegratyViolationException(
+            DataIntegratyViolationException ex, HttpServletRequest request) {
+        StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(), request.getRequestURI());
+
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
 }
