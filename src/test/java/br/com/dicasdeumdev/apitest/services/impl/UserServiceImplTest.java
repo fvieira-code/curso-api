@@ -3,6 +3,7 @@ package br.com.dicasdeumdev.apitest.services.impl;
 import br.com.dicasdeumdev.apitest.domain.User;
 import br.com.dicasdeumdev.apitest.domain.dto.UserDTO;
 import br.com.dicasdeumdev.apitest.repositories.UserRepository;
+import br.com.dicasdeumdev.apitest.services.exceptions.DataIntegratyViolationException;
 import br.com.dicasdeumdev.apitest.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -96,7 +96,21 @@ class UserServiceImplTest {
     }
 
     @Test
-    void whenCreateYhenReturnSucess() {
+    void whenCreateWhenReturnSucess() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try {
+            optionalUser.get().setId(2);
+            service.create(userDTO);
+        } catch (Exception ex){
+            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals("E-mail já cadastrado no sistema", ex.getMessage());
+        }
+
+    }
+
+    @Test
+    void whenCreateWhenReturnAnDataIntegrityViolationException() {
         when(repository.save(any())).thenReturn(user);
 
         User response = service.create(userDTO);
