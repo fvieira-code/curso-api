@@ -1,16 +1,13 @@
 package br.com.dicasdeumdev.apitest.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-//@Getter
-//@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@EqualsAndHashCode
 @Entity
 public class User {
 
@@ -20,8 +17,8 @@ public class User {
     private  String name;
 
     @Column(unique = true)
-    private String emial;
-    private String passwaord;
+    private String email;
+    private String password;
 
 
 }
