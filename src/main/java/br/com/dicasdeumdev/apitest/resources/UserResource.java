@@ -19,11 +19,12 @@ import java.util.stream.Collectors;
 public class UserResource {
 
     public static final String ID = "/{id}";
-    @Autowired
-    private ModelMapper mapper;
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @GetMapping(value = ID)
     public ResponseEntity<UserDTO> findById(@PathVariable Integer id){

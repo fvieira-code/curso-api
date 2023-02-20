@@ -5,12 +5,10 @@ import br.com.dicasdeumdev.apitest.domain.dto.UserDTO;
 import br.com.dicasdeumdev.apitest.repositories.UserRepository;
 import br.com.dicasdeumdev.apitest.services.exceptions.DataIntegratyViolationException;
 import br.com.dicasdeumdev.apitest.services.exceptions.ObjectNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +28,7 @@ class UserServiceImplTest {
     public static final String NAME = "Fernando";
     public static final String EMAIL = "fernando@email.com";
     public static final String PASSWORD = "54321";
-    public static final String OBJETO_NAO_ENCONTRADO = UserServiceImplTest.OBJETO_NAO_ENCONTRADO;
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
     public static final int INDEX = 0;
     public static final String E_MAIL_JA_CADASTRADO_NO_SISTEMA = "E-mail já cadastrado no sistema";
     @InjectMocks
